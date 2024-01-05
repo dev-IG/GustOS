@@ -1,2 +1,2 @@
 # GustOS
-Operating System made in Rust OS
+Operating System made in Rust.
