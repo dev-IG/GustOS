@@ -1,0 +1,27 @@
+{
+  "name": "Gust OS Dev Container",
+  "image": "fruitpunchsamurai1781/gust_os:latest",
+  "context": "..",
+  "runArgs": ["-u", "root"],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "files.eol": "\n",
+    "[rust]": {
+      "editor.defaultFormatter": "rust-lang.rust-analyzer",
+      "editor.formatOnSave": true
+    },
+    "rust-analyzer.serverPath": "/usr/local/bin/rust-analyzer"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "ms-vscode.makefile-tools",
+        "EditorConfig.EditorConfig",
+        "tamasfe.even-better-toml"
+      ]
+    }
+  },
+  "workspaceFolder": "/gust_os",
+  "shutdownAction": "stopContainer"
+}
