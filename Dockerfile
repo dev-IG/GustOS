@@ -4,10 +4,12 @@ FROM ubuntu:latest
 # Update the system and install necessary packages
 RUN apt-get update && apt-get install -y \
     qemu \
+    qemu-kvm \
     nasm \
     rustc \
     cargo \
-    git
+    git \
+    make
 
 # Set the working directory in the container
 WORKDIR /gust_os
