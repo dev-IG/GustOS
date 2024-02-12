@@ -1,9 +1,8 @@
-# Use the latest version of Ubuntu
-FROM ubuntu:latest
+FROM ubuntu:24.04
 
 # Update the system and install necessary packages
 RUN apt-get update && apt-get install -y \
-    qemu \
+    qemu-system-x86 \
     qemu-kvm \
     nasm \
     rustc \
