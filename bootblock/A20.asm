@@ -4,7 +4,6 @@
 
 [bits 32]
 [section .text]
-
 enable_A20:
         cli
 
