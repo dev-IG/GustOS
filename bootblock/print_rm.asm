@@ -20,6 +20,20 @@ finish:
 ; Function to print register information
 print_registers:
     pusha   ;save registers
+    push bx
+
+    ;Print DX register Value
+    mov bx, MSG_DX
+    call print_string
+    call print_hex
+
+    ; Print BX register value
+    mov dx, bx
+    mov bx, MSG_BX
+    call print_string
+    pop bx
+    mov dx, bx
+    call print_hex
 
     ; Print AX register value
     mov bx, MSG_AX
@@ -27,22 +41,10 @@ print_registers:
     mov dx, ax
     call print_hex
 
-    ; Print BX register value
-    mov bx, MSG_BX
-    call print_string
-    mov dx, bx
-    call print_hex
-
     ; Print CX register value
     mov bx, MSG_CX
     call print_string
     mov dx, cx
-    call print_hex
-
-    ; Print DX register value
-    mov bx, MSG_DX
-    call print_string
-    mov dx, dx
     call print_hex
 
     ; Print DI register value
