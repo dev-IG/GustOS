@@ -2,6 +2,7 @@
 ; Has all code related to floppy disk management
 ; @author Dev IG
 [bits 16]
+START_OF_BOOT_1 equ 0x1000 ;Address of where the start of boot 1 is located
 reset_disk_controller:
     pusha ; Store Registers
 
@@ -39,7 +40,7 @@ load_boot_1:
     jc boot_1_load_error
     cmp al, 17
     jne boot_1_sector_mismatch_error
-    mov bx, BOOT_1_LOAD_ERROR
+    mov bx, BOOT_1_LOAD_SUCCESS
     call print_string
 
     popa ;Restore Registers

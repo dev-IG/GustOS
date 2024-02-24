@@ -34,7 +34,8 @@ setup:
     jmp $
 
 ;include files statement so nasm can pick these up and the respective functions can be referenced
-%include "print_rm.asm"
+%include "print_string_rm.asm"
+%include "print_registers_rm.asm"
 %include "disk.asm"
 
 ; Global variables
