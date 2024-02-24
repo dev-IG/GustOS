@@ -16,4 +16,4 @@ boot-dump: create-disk
 	hexdump -C -n 9216 bootblock/disk.img > bootblock/disk.hex
 
 clean:
-	rm -f bootblock/boot0.bin bootblock/boot1.bin bootblock/disk.img bootblock/disk.hex
+	rm -f bootblock/*.bin bootblock/*.img bootblock/*.hex
