@@ -7,7 +7,7 @@ boot:
 create-disk: boot
 	dd if=/dev/zero of=bootblock/disk.img bs=512 count=2880
 	dd if=bootblock/boot0.bin of=bootblock/disk.img bs=512 count=1 conv=notrunc
-	dd if=bootblock/boot1.bin of=bootblock/disk.img bs=512 seek=1 conv=notrunc
+	dd if=bootblock/boot1.bin of=bootblock/disk.img bs=512 seek=1 count=17 conv=notrunc
 
 run: create-disk
 	qemu-system-x86_64 -nographic -drive format=raw,file=bootblock/disk.img
