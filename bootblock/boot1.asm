@@ -14,7 +14,7 @@ _start:
     jmp $
 
 ;include files statement so nasm can pick these up and the respective functions can be referenced
-%include "print_string_rm.asm"
+%include "realmode/print/string.asm"
 
 ; Global variables
 MSG_BOOT_ONE_LOAD db "Boot 1 successfully loaded! ", 0

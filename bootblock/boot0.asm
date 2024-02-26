@@ -34,9 +34,10 @@ setup:
     jmp $
 
 ;include files statement so nasm can pick these up and the respective functions can be referenced
-%include "print_string_rm.asm"
-%include "print_registers_rm.asm"
-%include "disk.asm"
+%include "realmode/print/string.asm"
+%include "realmode/print/registers.asm"
+%include "realmode/disk/boot_1_load.asm"
+%include "realmode/disk/reset.asm"
 
 ; Global variables
 DRIVE_NUMBER db 0
