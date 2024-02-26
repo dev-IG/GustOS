@@ -10,9 +10,6 @@ PROTECTED_MODE_STACK equ 0xf000 ;Address of where Kernel is located
 _start:
     cli     ;disable interrupts once we jump to this stage
 
-    mov sp, PROTECTED_MODE_STACK    ;set the stack-pointer to point to protected mode stack
-
-
     mov bx, MSG_BOOT_ONE_LOAD ;print message to show we are at boot1 now
     call print_string
 
