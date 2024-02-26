@@ -14,10 +14,11 @@ reset_disk_controller:
     ret
 
 reset_error:
+    cli
     mov bx, RESET_ERROR
     call print_string
     call print_registers
-    hlt
+    jmp $
 
-RESET_ERROR db "er: disk reset! ", 0
-RESET_SUCCESS db "success: disk reset! ", 0
+RESET_ERROR db "er: disk reset ", 0
+RESET_SUCCESS db "success: disk reset ", 0

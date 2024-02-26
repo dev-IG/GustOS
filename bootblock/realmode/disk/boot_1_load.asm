@@ -29,17 +29,19 @@ load_boot_1:
     ret
 
 boot_1_load_error:
+    cli
     call print_registers
     mov bx, BOOT_1_LOAD_ERROR
     call print_string
     jmp $
 
 boot_1_sector_mismatch_error:
+    cli
     call print_registers
     mov bx, BOOT_1_SECTOR_MISMATCH_ERROR
     call print_string
     jmp $
 
-BOOT_1_LOAD_SUCCESS db "success: disk load! ", 0
-BOOT_1_LOAD_ERROR db "error: boot 1 load! ", 0
-BOOT_1_SECTOR_MISMATCH_ERROR db "error: !17 sector load! ", 0
+BOOT_1_LOAD_SUCCESS db "success: disk load ", 0
+BOOT_1_LOAD_ERROR db "error: boot 1 load ", 0
+BOOT_1_SECTOR_MISMATCH_ERROR db "error: 17 sector load ", 0

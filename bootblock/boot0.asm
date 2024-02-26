@@ -25,12 +25,19 @@ setup:
 
     mov sp, REAL_MODE_STACK ;set up stack pointer
 
-    sti ; enable interrupts
-
     mov [DRIVE_NUMBER], dl ;Before we reset the disk, we need to record and store the value of the drive number which the dl has currently
     call reset_disk_controller
     call load_boot_1
+
+    sti ; enable interrupts
     jmp START_OF_BOOT_1 ;Address of where the start of boot 1 is located
+    jmp error   ;jump to error message as we don't expect to return from jumping to Boot 1 assembly
+
+
+error:
+    cli ;disable interrupts
+    mov bx, MSG_ERROR ;print error to allow tracing
+    call print_string
     jmp $
 
 ;include files statement so nasm can pick these up and the respective functions can be referenced
@@ -41,6 +48,7 @@ setup:
 
 ; Global variables
 DRIVE_NUMBER db 0
-MSG_REAL_MODE db "Started in 16-bit Real Mode ", 0
+MSG_REAL_MODE db "Started ", 0
+MSG_ERROR     db "Error Occured", 0
 times 510-($-$$) db 0
 dw 0xAA55 ; Magic Number to let BIOS know we are the boot sector
