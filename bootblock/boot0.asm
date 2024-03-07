@@ -43,6 +43,7 @@ error:
 ;include files statement so nasm can pick these up and the respective functions can be referenced
 %include "realmode/print/string.asm"
 %include "realmode/print/registers.asm"
+%include "realmode/print/hex.asm"
 %include "realmode/disk/boot_1_load.asm"
 %include "realmode/disk/reset.asm"
 
