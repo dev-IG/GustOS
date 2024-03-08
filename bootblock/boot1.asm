@@ -7,6 +7,7 @@
 [org 0x1000]
 PROTECTED_MODE_STACK equ 0xF000 ;Address of where Kernel is located
 LOWER_MEMORY_REQUIRE equ 0x280 ; Required amount of lower memory. Needs to be = 640
+UPPER_MEMORY_REQUIRE equ 0x05 ; should have 5 entries for upper memory
 _start:
     mov bx, MSG_BOOT_ONE_LOAD ;print message to show we are at boot1 now
     call print_string
@@ -21,24 +22,43 @@ not_enough_low_mem:
     cli ;disable interrupts
     mov bx, LOW_MEM_SIZE_ERROR ;print error to allow tracing
     call print_string
+    mov dx, [LOWER_MEM_SIZE]
+    call print_hex
+    mov bx, KB_STR
+    call print_string
     jmp $
 
 low_mem_success:
     mov bx, LOW_MEM_SUCCESS ;print success message for correct lower memory size
     call print_string
-
     mov dx, [LOWER_MEM_SIZE]
     call print_hex
-    mov bx, [KB_STR]
+    mov bx, KB_STR
     call print_string
 
-    call do_e820
-    mov [UPPER_MEM_SIZE], bp ;UPPER_MEM_SIZE = count of usable entries in upper memory
+    call query_upper_memory
+    mov [UPPER_MEM_SIZE], bp ;Store the value of the upper memory size returned from call
+    cmp bp, UPPER_MEMORY_REQUIRE ;need the count of entries to be = 5
+    jne not_enough_upper_memory
+    jmp upper_memory_success
+
+not_enough_upper_memory:
+    cli ;disable interrupts
+    mov bx, UPPER_MEM_SIZE_ERROR ;print error to allow tracing
+    call print_string
     mov dx, [UPPER_MEM_SIZE]
     call print_hex
-    mov bx, [ENTRIES_STR]
+    mov bx, ENTRIES_STR
     call print_string
+    jmp $
 
+upper_memory_success:
+    mov bx, UPPER_MEM_SUCCESS ;print success message for correct upper memory size
+    call print_string
+    mov dx, [UPPER_MEM_SIZE]
+    call print_hex
+    mov bx, ENTRIES_STR
+    call print_string
     jmp error
 
 error:
@@ -51,14 +71,16 @@ error:
 %include "realmode/print/string.asm"
 %include "realmode/print/hex.asm"
 %include "realmode/memory/query_lower_memory.asm"
-%include "realmode/memory/e820.asm"
+%include "realmode/memory/query_upper_memory.asm"
 
 ; Global variables
 MSG_BOOT_ONE_LOAD db "Boot 1 successfully loaded! ", 0
 MSG_ERROR db "Error Occured! ", 0
 LOW_MEM_SIZE_ERROR db 'lower memory size not enough: ', 0
 LOW_MEM_SUCCESS db 'lower memory: ', 0
+UPPER_MEM_SIZE_ERROR db 'upper memory size not enough: ', 0
+UPPER_MEM_SUCCESS db 'upper memory: ', 0
 KB_STR db 'kb ', 0
-ENTRIES_STR db 'upper memory entries ', 0
+ENTRIES_STR db 'entries ', 0
 LOWER_MEM_SIZE db 0
 UPPER_MEM_SIZE db 0
