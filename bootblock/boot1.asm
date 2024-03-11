@@ -59,6 +59,8 @@ upper_memory_success:
     call print_hex
     mov bx, ENTRIES_STR
     call print_string
+
+    call enable_a20
     jmp error
 
 error:
@@ -72,6 +74,8 @@ error:
 %include "realmode/print/hex.asm"
 %include "realmode/memory/query_lower_memory.asm"
 %include "realmode/memory/query_upper_memory.asm"
+%include "realmode/a20/check_a20.asm"
+%include "realmode/a20/enable_a20.asm"
 
 ; Global variables
 MSG_BOOT_ONE_LOAD db "Boot 1 successfully loaded! ", 0
