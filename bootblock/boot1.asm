@@ -61,7 +61,23 @@ upper_memory_success:
     call print_string
 
     call enable_a20
-    jmp error
+
+    jmp transition_to_protected_mode
+
+transition_to_protected_mode:
+    cli ;disable interrupts
+    lgdt [gdtr_32]
+    sti ;enable interrupts
+
+    mov eax, cr0    ; eax = c20
+    or eax, 0x1     ; eax |= 0x1 to set the protection bit
+    mov cr0, eax    ; cr0 = eax
+
+    jmp CODE_SEG:protected_mode_start
+
+    jmp error ; we don't expected to return from the jump above so if we do, need to return error
+
+
 
 error:
     cli ;disable interrupts
@@ -76,10 +92,12 @@ error:
 %include "realmode/memory/query_upper_memory.asm"
 %include "realmode/a20/check_a20.asm"
 %include "realmode/a20/enable_a20.asm"
+%include "gdt_32.asm"
+%include "boot2.asm"
 
 ; Global variables
 MSG_BOOT_ONE_LOAD db "Boot 1 successfully loaded! ", 0
-MSG_ERROR db "Error Occured! ", 0
+MSG_ERROR db "Failed to jump into protected mode stage! ", 0
 LOW_MEM_SIZE_ERROR db 'lower memory size not enough: ', 0
 LOW_MEM_SUCCESS db 'lower memory: ', 0
 UPPER_MEM_SIZE_ERROR db 'upper memory size not enough: ', 0
