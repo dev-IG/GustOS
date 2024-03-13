@@ -67,7 +67,6 @@ upper_memory_success:
 transition_to_protected_mode:
     cli ;disable interrupts
     lgdt [gdtr_32]
-    sti ;enable interrupts
 
     mov eax, cr0    ; eax = c20
     or eax, 0x1     ; eax |= 0x1 to set the protection bit

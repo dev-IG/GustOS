@@ -10,6 +10,9 @@ create-disk: boot
 	dd if=bootblock/boot1.bin of=bootblock/disk.img bs=512 seek=1 count=17 conv=notrunc
 
 run: create-disk
+	qemu-system-x86_64  -drive format=raw,file=bootblock/disk.img
+
+run-ng: create-disk
 	qemu-system-x86_64 -nographic -drive format=raw,file=bootblock/disk.img
 
 boot-dump: create-disk

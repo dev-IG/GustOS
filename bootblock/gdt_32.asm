@@ -29,5 +29,4 @@ gdtr_32:
     dw end_of_gdt32 - gdt32_null - 1   ;Size of the GDT
     dd gdt32_null                    ;Start of the GDT
 
-CODE_SEG equ gdt32_code - gdt32_start
-DATA_SEG equ gdt32_data - gdt32_start
+CODE_SEG equ 0x08
