@@ -91,7 +91,7 @@ error:
 %include "realmode/memory/query_upper_memory.asm"
 %include "realmode/a20/check_a20.asm"
 %include "realmode/a20/enable_a20.asm"
-%include "gdt_32.asm"
+%include "gdt/gdt_32.asm"
 %include "boot2.asm"
 
 ; Global variables

@@ -30,3 +30,4 @@ gdtr_32:
     dd gdt32_null                    ;Start of the GDT
 
 CODE_SEG equ 0x08
+DATA_SEG equ 0x10 ;Offset to the data segment in GDT which is 16 bytes or 0x10 in hex
