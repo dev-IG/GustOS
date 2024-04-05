@@ -1,11 +1,11 @@
 [bits 32]
 
 [section .text]
-PROTECTED_MODE_STACK equ 0xf000 ;Address of where Kernel is located
-PM4LT equ 0x10000 ;Start Address of PM4LT - Page Table Level 4
-PDPT equ 0x11000 ;Start Address of PDPT - Page Table Level 3
-PDT equ 0x12000 ;Start Address of PDT - Page Table Level 2
-PT equ 0x13000 ;Start Address of PT - Page Table Level 1
+PROTECTED_MODE_STACK equ 0xe000 ;Start of protected mode stack
+PM4LT equ 0x101000 ;Start Address of PM4LT - Page Table Level 4
+PDPT equ 0x102000 ;Start Address of PDPT - Page Table Level 3
+PDT equ 0x103000 ;Start Address of PDT - Page Table Level 2
+PT equ 0x104000 ;Start Address of PT - Page Table Level 1
 PG_PRESENT equ 0x1 ;0th bit set means page is present
 PG_R_W equ 0x2  ;1st bit set means page is read/write enabled
 PG_LAST equ 0x80 ;8th bit set means this is the past page frame
@@ -48,11 +48,11 @@ protected_mode_start:
     mov edi, cr3       ; Set the destination index to control register 3.
 
     ;point PML4T[0] to point to PDPT, PDT, and then PT
-    mov DWORD [edi], 0x11003    ; Set the uint32_t at the destination index to 0x11003.
+    mov DWORD [edi], 0x102003    ; Set the uint32_t at the destination index to 0x102003.
     add edi, 0x1000              ; Add 0x1000 to the destination index.
-    mov DWORD [edi], 0x12003    ; Set the uint32_t at the destination index to 0x12003.
+    mov DWORD [edi], 0x103003    ; Set the uint32_t at the destination index to 0x103003.
     add edi, 0x1000             ; Add 0x10000 to the destination index.
-    mov DWORD [edi], 0x13003    ; Set the uint32_t at the destination index to 0x13003.
+    mov DWORD [edi], 0x104003    ; Set the uint32_t at the destination index to 0x104003.
     add edi, 0x1000             ; Add 0x10000 to the destination index.
 
     mov ebx, 0x00000003          ; Set the B-register to 0x00000003.

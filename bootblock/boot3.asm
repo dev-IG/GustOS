@@ -1,6 +1,7 @@
 [bits 64]
 
 [section .text]
+KERNEL_OFFSET equ 0xf000 ;Address of where Kernel is located
 
 long_mode_start:
     cli                           ; Clear the interrupt flag.
@@ -13,7 +14,7 @@ long_mode_start:
 
     mov rax, 0x2f592f412f4b2f4f
     mov qword [0xb8000], rax
-    hlt                           ; Halt the processor.
+    hlt
 
 
 ;Global Variables

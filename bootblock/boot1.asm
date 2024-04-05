@@ -5,10 +5,10 @@
 ; VERY IMPORTANT TO SPECIFY ADDRESS!!!! Even if we are loading from disk, we need to give the org
 ; and it needs to match exactly with what boot0.asm has set its START_OF_BOOT_1 value to
 [org 0x1000]
-PROTECTED_MODE_STACK equ 0xF000 ;Address of where Kernel is located
 LOWER_MEMORY_REQUIRE equ 0x280 ; Required amount of lower memory. Needs to be = 640
 UPPER_MEMORY_REQUIRE equ 0x05 ; should have 5 entries for upper memory
 _start:
+    mov [DRIVE_NUMBER], dl ;We are using dx here, so before anything, we need to record and store the value of the drive number which the dl(lower 8 bits of dx) has currently
     mov bx, MSG_BOOT_ONE_LOAD ;print message to show we are at boot1 now
     call print_string
 
@@ -60,6 +60,9 @@ upper_memory_success:
     mov bx, ENTRIES_STR
     call print_string
 
+    ;load the contents of the kernel from disk to low memory
+    call load_kernel
+    jmp 0xf000
     call enable_a20
 
     jmp transition_to_protected_mode
@@ -87,14 +90,18 @@ error:
 ;include files statement so nasm can pick these up and the respective functions can be referenced
 %include "realmode/print/string.asm"
 %include "realmode/print/hex.asm"
+%include "realmode/print/registers.asm"
 %include "realmode/memory/query_lower_memory.asm"
 %include "realmode/memory/query_upper_memory.asm"
+%include "realmode/disk/kernel_load.asm"
+%include "realmode/disk/lba_to_chs.asm"
 %include "realmode/a20/check_a20.asm"
 %include "realmode/a20/enable_a20.asm"
 %include "gdt/gdt_32.asm"
 %include "boot2.asm"
 
 ; Global variables
+DRIVE_NUMBER db 0
 MSG_BOOT_ONE_LOAD db "Boot 1 successfully loaded! ", 0
 MSG_ERROR db "Failed to jump into protected mode stage! ", 0
 LOW_MEM_SIZE_ERROR db 'lower memory size not enough: ', 0
